@@ -564,7 +564,8 @@
 const clubs = [ { id:1, name:"Palmeiras"} , { id: 2, name:"Santos"}, {id:3, name:"Grêmio"}]
 
 const novoArray = clubs.map(club => {
-const filterClub = array.filter(match => match.homeClub.clubName === club.name)
+	const filterClub = array.filter(match => match.homeClub.clubName === club.name)
+	const totalGames = filterClub.filter(match => match.homeClub.clubName).length
 const totalPoints = filterClub.map(match => {
 	let result = 0;
 	if(match.homeTeamGoals > match.awayTeamGoals){
@@ -576,10 +577,47 @@ const totalPoints = filterClub.map(match => {
 	return result
 }).reduce((acc,curr)=> acc + curr, 0)
 
+const totalVictories = filterClub.map(match => {
+	let result =0;
+	if(match.homeTeamGoals > match.awayTeamGoals){
+		result=1
+	}
+	return result;
+}).reduce((acc, curr)=> acc + curr, 0)
+
+const totalDraws = filterClub.map(match => {
+	let result =0;
+	if(match.homeTeamGoals === match.awayTeamGoals){
+		result=1
+	}
+	return result;
+}).reduce((acc, curr)=> acc + curr, 0)
+
+const totalLosses = filterClub.map(match => {
+	let result =0;
+	if(match.homeTeamGoals < match.awayTeamGoals){
+		result=1
+	}
+	return result;
+}).reduce((acc, curr)=> acc + curr, 0)
+
+
+const goalsFavor = filterClub.map(match => match.homeTeamGoals).reduce((acc, curr) => acc + curr,0)
+const goalsOwn = filterClub.map(match => match.awayTeamGoals).reduce((acc,curr) => acc + curr, 0)
+const goalsBalance = goalsFavor - goalsOwn
+const efficiency = (totalPoints/(totalGames*3)*100).toFixed(2)
 
 const classification = {
 	name: club.name,
 	totalPoints,
+	totalGames,
+	totalVictories,
+	totalDraws,
+	totalLosses,
+	goalsFavor,
+	goalsOwn,
+	goalsBalance,
+	efficiency,
 }
 return classification
 })
