@@ -45,3 +45,13 @@ function stringy(size) {
 }
 
 console.log(stringy(4))
+
+function pipeFix(numbers){
+  const arr =[]
+  for(i =numbers[0]; i<= numbers[numbers.length-1]; i++){
+    arr.push(i)
+  }
+  return arr
+}
+
+console.log(pipeFix([-1,4]))
